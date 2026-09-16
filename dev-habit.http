@@ -1,0 +1,6 @@
+@dev_habit_HostAddress = http://localhost:5120
+
+GET {{dev_habit_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
