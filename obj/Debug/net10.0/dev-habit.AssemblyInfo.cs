@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("dev-habit")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bcab618667217e7937f5278e4bd1e83a8ceaa6d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9bb947d12b61e9dadfb3dc4ee29e947d8c9e2418")]
 [assembly: System.Reflection.AssemblyProductAttribute("dev-habit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("dev-habit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

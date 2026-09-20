@@ -1,0 +1,6 @@
+docker-compose.yml
+bin/
+obj/
+.vs/
+.vscode/
+appsettings.Development.json
