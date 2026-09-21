@@ -1,5 +1,4 @@
 using System;
-
 namespace dev_habit.Models;
 
 public class Difficulty
