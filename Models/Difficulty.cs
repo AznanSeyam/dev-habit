@@ -7,4 +7,5 @@ public class Difficulty
     public Guid Id { get; set; }
 
 
+    
 }
