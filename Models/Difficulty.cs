@@ -6,6 +6,4 @@ public class Difficulty
 {
     public String Name { get; set; }
     public Guid Id { get; set; }
-
-
 }

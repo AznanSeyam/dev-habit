@@ -13,5 +13,4 @@ public class Walk
     public Difficulty Difficulty { get; set; }
     public Guid RegionID { get; set; }
     public Region Region { get; set; }
-
 }
