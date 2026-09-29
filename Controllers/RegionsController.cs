@@ -26,13 +26,14 @@ namespace dev_habit.Controllers
         [Route("{id:Guid}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            var region = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
-            if (region == null)
+            var regionid = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            if (regionid == null)
             {
                 return NotFound();
             }
+
             else
-                return Ok(region);
+                return Ok(regionid);
         }
 
     }
