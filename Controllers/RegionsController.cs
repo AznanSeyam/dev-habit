@@ -1,6 +1,8 @@
 using dev_habit.Data;
+using dev_habit.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 namespace dev_habit.Controllers
 {
@@ -18,23 +20,39 @@ namespace dev_habit.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var regions = _dbContext.Regions.ToList();
-            return Ok(regions);
+            var regionsDomain = _dbContext.Regions.ToList();
+            var regionDTO = new List<RegionDTO>();
+            foreach (var item in regionsDomain)
+            {
+                regionDTO.Add(new RegionDTO()
+                {
+                    Id = item.Id,
+                    Code = item.Code,
+                    Name = item.Name,
+                    RegionImgURL = item.RegionImgURL
+                });
+            }
+
+            return Ok(regionDTO);
         }
 
         [HttpGet]
         [Route("{id:Guid}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            var regionid = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
-            if (regionid == null)
+            var region = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            if (region == null)
             {
                 return NotFound();
             }
-
-            else
-                return Ok(regionid);
+            var regionDTO = new RegionDTO
+            {
+                Id = region.Id,
+                Code = region.Code,
+                Name = region.Name,
+                RegionImgURL = region.RegionImgURL
+            };
+            return Ok(regionDTO);
         }
-
     }
 }

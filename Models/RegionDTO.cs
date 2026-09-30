@@ -2,7 +2,7 @@ using System;
 
 namespace dev_habit.Models;
 
-public class Region
+public class RegionDTO
 {
     public Guid Id { get; set; }
     public String Code { get; set; }
