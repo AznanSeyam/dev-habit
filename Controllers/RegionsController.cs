@@ -2,6 +2,7 @@ using dev_habit.Data;
 using dev_habit.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 
 namespace dev_habit.Controllers
@@ -103,6 +104,51 @@ namespace dev_habit.Controllers
             };
             return Ok(updateRegion);
         }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            var deleteDomain = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            if (deleteDomain == null)
+            {
+                return NotFound();
+            }
+            _dbContext.Regions.Remove(deleteDomain);
+            _dbContext.SaveChanges();
+            var regionDto = new RegionDTO
+            {
+                Id = deleteDomain.Id,
+                Code = deleteDomain.Code,
+                Name = deleteDomain.Name,
+                RegionImgURL = deleteDomain.RegionImgURL
+            };
+            return Ok(regionDto);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
