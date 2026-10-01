@@ -19,9 +19,9 @@ namespace dev_habit.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var regionsDomain = _dbContext.Regions.ToList();
+            var regionsDomain = await _dbContext.Regions.ToListAsync();
             var regionDTO = new List<RegionDTO>();
             foreach (var item in regionsDomain)
             {
@@ -39,9 +39,9 @@ namespace dev_habit.Controllers
 
         [HttpGet]
         [Route("{id:Guid}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var region = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            var region = await _dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
             if (region == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace dev_habit.Controllers
 
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateRegionDTO createRegionDTO)
+        public async Task<IActionResult> Create([FromBody] CreateRegionDTO createRegionDTO)
         {
             var regionDomain = new Region
             {
@@ -67,8 +67,8 @@ namespace dev_habit.Controllers
                 RegionImgURL = createRegionDTO.RegionImgURL
             };
 
-            _dbContext.Regions.Add(regionDomain);
-            _dbContext.SaveChanges();
+            await _dbContext.Regions.AddAsync(regionDomain);
+            await _dbContext.SaveChangesAsync();
 
             var regionDTO = new RegionDTO
             {
@@ -82,9 +82,9 @@ namespace dev_habit.Controllers
 
         [HttpPut]
         [Route("{id:Guid}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
         {
-            var regionDomain = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            var regionDomain = await _dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
             if (regionDomain == null)
             {
                 return NotFound();
@@ -94,7 +94,7 @@ namespace dev_habit.Controllers
             regionDomain.Name = updateRegionDTO.Name;
             regionDomain.RegionImgURL = updateRegionDTO.RegionImgURL;
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             var updateRegion = new RegionDTO
             {
                 Id = regionDomain.Id,
@@ -107,15 +107,15 @@ namespace dev_habit.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var deleteDomain = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            var deleteDomain = await _dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
             if (deleteDomain == null)
             {
                 return NotFound();
             }
             _dbContext.Regions.Remove(deleteDomain);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
             var regionDto = new RegionDTO
             {
                 Id = deleteDomain.Id,
@@ -126,31 +126,5 @@ namespace dev_habit.Controllers
             return Ok(regionDto);
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
