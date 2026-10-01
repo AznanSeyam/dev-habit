@@ -54,5 +54,57 @@ namespace dev_habit.Controllers
             };
             return Ok(regionDTO);
         }
+
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateRegionDTO createRegionDTO)
+        {
+            var regionDomain = new Region
+            {
+                Code = createRegionDTO.Code,
+                Name = createRegionDTO.Name,
+                RegionImgURL = createRegionDTO.RegionImgURL
+            };
+
+            _dbContext.Regions.Add(regionDomain);
+            _dbContext.SaveChanges();
+
+            var regionDTO = new RegionDTO
+            {
+                Id = regionDomain.Id,
+                Code = regionDomain.Code,
+                Name = regionDomain.Name,
+                RegionImgURL = regionDomain.RegionImgURL
+            };
+            return CreatedAtAction(nameof(GetById), new { id = regionDTO.Id }, regionDTO);
+        }
+
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
+        {
+            var regionDomain = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            if (regionDomain == null)
+            {
+                return NotFound();
+            }
+
+            regionDomain.Code = updateRegionDTO.Code;
+            regionDomain.Name = updateRegionDTO.Name;
+            regionDomain.RegionImgURL = updateRegionDTO.RegionImgURL;
+
+            _dbContext.SaveChanges();
+            var updateRegion = new RegionDTO
+            {
+                Id = regionDomain.Id,
+                Code = regionDomain.Code,
+                Name = regionDomain.Name,
+                RegionImgURL = regionDomain.RegionImgURL
+            };
+            return Ok(updateRegion);
+        }
+
+
+
     }
 }
