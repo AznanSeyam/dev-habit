@@ -1,5 +1,6 @@
 using dev_habit.Data;
 using dev_habit.Models;
+using dev_habit.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,17 +12,17 @@ namespace dev_habit.Controllers
     [ApiController]
     public class RegionsController : ControllerBase
     {
-        private readonly DevHabitDbContext _dbContext;
+        private readonly IRegionRepository _regionRepository;
 
-        public RegionsController(DevHabitDbContext dbContext)
+        public RegionsController(IRegionRepository regionRepository)
         {
-            _dbContext = dbContext;
+            _regionRepository = regionRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var regionsDomain = await _dbContext.Regions.ToListAsync();
+            var regionsDomain = await _regionRepository.GetAllAsync();
             var regionDTO = new List<RegionDTO>();
             foreach (var item in regionsDomain)
             {
@@ -33,7 +34,6 @@ namespace dev_habit.Controllers
                     RegionImgURL = item.RegionImgURL
                 });
             }
-
             return Ok(regionDTO);
         }
 
@@ -41,7 +41,7 @@ namespace dev_habit.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var region = await _dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
+            var region = await _regionRepository.GetByIdAsync(id);
             if (region == null)
             {
                 return NotFound();
@@ -67,8 +67,7 @@ namespace dev_habit.Controllers
                 RegionImgURL = createRegionDTO.RegionImgURL
             };
 
-            await _dbContext.Regions.AddAsync(regionDomain);
-            await _dbContext.SaveChangesAsync();
+            regionDomain = await _regionRepository.CreateAsync(regionDomain);
 
             var regionDTO = new RegionDTO
             {
@@ -84,47 +83,45 @@ namespace dev_habit.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
         {
-            var regionDomain = await _dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
-            if (regionDomain == null)
+            var regionModel = new Region
+            {
+                Code = updateRegionDTO.Code,
+                Name = updateRegionDTO.Name,
+                RegionImgURL = updateRegionDTO.RegionImgURL
+            };
+
+            var regionDomain = await _regionRepository.UpdateAsync(id, regionModel);
+            if (regionModel == null)
             {
                 return NotFound();
             }
-
-            regionDomain.Code = updateRegionDTO.Code;
-            regionDomain.Name = updateRegionDTO.Name;
-            regionDomain.RegionImgURL = updateRegionDTO.RegionImgURL;
-
-            await _dbContext.SaveChangesAsync();
-            var updateRegion = new RegionDTO
+            var regionDTO = new RegionDTO
             {
-                Id = regionDomain.Id,
-                Code = regionDomain.Code,
-                Name = regionDomain.Name,
-                RegionImgURL = regionDomain.RegionImgURL
+                Id = regionModel.Id,
+                Code = regionModel.Code,
+                Name = regionModel.Name,
+                RegionImgURL = regionModel.RegionImgURL
             };
-            return Ok(updateRegion);
+            return Ok(regionDTO);
         }
 
         [HttpDelete]
         [Route("{id:Guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var deleteDomain = await _dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
-            if (deleteDomain == null)
+            var regionDomain = await _regionRepository.DeleteAsync(id);
+            if (regionDomain == null)
             {
                 return NotFound();
             }
-            _dbContext.Regions.Remove(deleteDomain);
-            await _dbContext.SaveChangesAsync();
             var regionDto = new RegionDTO
             {
-                Id = deleteDomain.Id,
-                Code = deleteDomain.Code,
-                Name = deleteDomain.Name,
-                RegionImgURL = deleteDomain.RegionImgURL
+                Id = regionDomain.Id,
+                Code = regionDomain.Code,
+                Name = regionDomain.Name,
+                RegionImgURL = regionDomain.RegionImgURL
             };
             return Ok(regionDto);
-
         }
     }
 }
