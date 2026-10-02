@@ -1,3 +1,4 @@
+using AutoMapper;
 using dev_habit.Data;
 using dev_habit.Models;
 using dev_habit.Repositories;
@@ -13,28 +14,19 @@ namespace dev_habit.Controllers
     public class RegionsController : ControllerBase
     {
         private readonly IRegionRepository _regionRepository;
+        private readonly IMapper _mapper;
 
-        public RegionsController(IRegionRepository regionRepository)
+        public RegionsController(IRegionRepository regionRepository, IMapper mapper)
         {
             _regionRepository = regionRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var regionsDomain = await _regionRepository.GetAllAsync();
-            var regionDTO = new List<RegionDTO>();
-            foreach (var item in regionsDomain)
-            {
-                regionDTO.Add(new RegionDTO()
-                {
-                    Id = item.Id,
-                    Code = item.Code,
-                    Name = item.Name,
-                    RegionImgURL = item.RegionImgURL
-                });
-            }
-            return Ok(regionDTO);
+            return Ok(_mapper.Map<List<RegionDTO>>(regionsDomain));
         }
 
         [HttpGet]
@@ -46,63 +38,42 @@ namespace dev_habit.Controllers
             {
                 return NotFound();
             }
-            var regionDTO = new RegionDTO
-            {
-                Id = region.Id,
-                Code = region.Code,
-                Name = region.Name,
-                RegionImgURL = region.RegionImgURL
-            };
-            return Ok(regionDTO);
+            return Ok(_mapper.Map<RegionDTO>(region));
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateRegionDTO createRegionDTO)
         {
-            var regionDomain = new Region
+            if (ModelState.IsValid)
             {
-                Code = createRegionDTO.Code,
-                Name = createRegionDTO.Name,
-                RegionImgURL = createRegionDTO.RegionImgURL
-            };
+                var regionDomain = _mapper.Map<Region>(createRegionDTO);
 
-            regionDomain = await _regionRepository.CreateAsync(regionDomain);
+                regionDomain = await _regionRepository.CreateAsync(regionDomain);
 
-            var regionDTO = new RegionDTO
+                var regionDTO = _mapper.Map<RegionDTO>(regionDomain);
+
+                return CreatedAtAction(nameof(GetById), new { id = regionDTO.Id }, regionDTO);
+            }
+            else
             {
-                Id = regionDomain.Id,
-                Code = regionDomain.Code,
-                Name = regionDomain.Name,
-                RegionImgURL = regionDomain.RegionImgURL
-            };
-            return CreatedAtAction(nameof(GetById), new { id = regionDTO.Id }, regionDTO);
+                return BadRequest(ModelState);
+            }
         }
 
         [HttpPut]
         [Route("{id:Guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
         {
-            var regionModel = new Region
-            {
-                Code = updateRegionDTO.Code,
-                Name = updateRegionDTO.Name,
-                RegionImgURL = updateRegionDTO.RegionImgURL
-            };
+
+            var regionModel = _mapper.Map<Region>(updateRegionDTO);
 
             var regionDomain = await _regionRepository.UpdateAsync(id, regionModel);
             if (regionModel == null)
             {
                 return NotFound();
             }
-            var regionDTO = new RegionDTO
-            {
-                Id = regionModel.Id,
-                Code = regionModel.Code,
-                Name = regionModel.Name,
-                RegionImgURL = regionModel.RegionImgURL
-            };
-            return Ok(regionDTO);
+            return Ok(_mapper.Map<RegionDTO>(regionDomain));
         }
 
         [HttpDelete]
@@ -114,14 +85,7 @@ namespace dev_habit.Controllers
             {
                 return NotFound();
             }
-            var regionDto = new RegionDTO
-            {
-                Id = regionDomain.Id,
-                Code = regionDomain.Code,
-                Name = regionDomain.Name,
-                RegionImgURL = regionDomain.RegionImgURL
-            };
-            return Ok(regionDto);
+            return Ok(_mapper.Map<RegionDTO>(regionDomain));
         }
     }
 }

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "gNoba+WZxi4=",
+  "dgSpecHash": "KaPqaCtFgtA=",
   "success": true,
   "projectFilePath": "/home/linux/Projects/dev-habit/dev-habit/dev-habit.csproj",
   "expectedPackageFiles": [
     "/home/linux/.nuget/packages/automapper/16.2.0/automapper.16.2.0.nupkg.sha512",
+    "/home/linux/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "/home/linux/.nuget/packages/azure.core/1.50.0/azure.core.1.50.0.nupkg.sha512",
     "/home/linux/.nuget/packages/azure.identity/1.17.1/azure.identity.1.17.1.nupkg.sha512",
     "/home/linux/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
@@ -56,5 +57,18 @@
     "/home/linux/.nuget/packages/system.security.cryptography.pkcs/9.0.11/system.security.cryptography.pkcs.9.0.11.nupkg.sha512",
     "/home/linux/.nuget/packages/system.security.cryptography.protecteddata/9.0.11/system.security.cryptography.protecteddata.9.0.11.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1608",
+      "level": "Warning",
+      "message": "Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 16.2.0 was resolved.",
+      "projectPath": "/home/linux/Projects/dev-habit/dev-habit/dev-habit.csproj",
+      "warningLevel": 1,
+      "filePath": "/home/linux/Projects/dev-habit/dev-habit/dev-habit.csproj",
+      "libraryId": "AutoMapper",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
 }

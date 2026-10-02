@@ -1,4 +1,5 @@
 using dev_habit.Data;
+using dev_habit.Mappings;
 using dev_habit.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<DevHabitDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+builder.Services.AddAutoMapper(typeof(AutoMaperProfile));
 
 var app = builder.Build();
 
