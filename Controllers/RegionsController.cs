@@ -1,4 +1,5 @@
 using AutoMapper;
+using dev_habit.CustomActionFilters;
 using dev_habit.Data;
 using dev_habit.Models;
 using dev_habit.Repositories;
@@ -25,6 +26,7 @@ namespace dev_habit.Controllers
         }
 
         [HttpGet]
+        [ValidateModel]
         public async Task<IActionResult> GetAll()
         {
             var regionsDomain = await _regionRepository.GetAllAsync();
@@ -33,6 +35,7 @@ namespace dev_habit.Controllers
 
         [HttpGet]
         [Route("{id:Guid}")]
+        [ValidateModel]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var region = await _regionRepository.GetByIdAsync(id);
@@ -45,26 +48,22 @@ namespace dev_habit.Controllers
 
 
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] CreateRegionDTO createRegionDTO)
         {
-            if (ModelState.IsValid)
-            {
-                var regionDomain = _mapper.Map<Region>(createRegionDTO);
 
-                regionDomain = await _regionRepository.CreateAsync(regionDomain);
+            var regionDomain = _mapper.Map<Region>(createRegionDTO);
 
-                var regionDTO = _mapper.Map<RegionDTO>(regionDomain);
+            regionDomain = await _regionRepository.CreateAsync(regionDomain);
 
-                return CreatedAtAction(nameof(GetById), new { id = regionDTO.Id }, regionDTO);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            var regionDTO = _mapper.Map<RegionDTO>(regionDomain);
+
+            return CreatedAtAction(nameof(GetById), new { id = regionDTO.Id }, regionDTO);
         }
 
         [HttpPut]
         [Route("{id:Guid}")]
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegionDTO)
         {
 
@@ -80,6 +79,7 @@ namespace dev_habit.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
+        [ValidateModel]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var regionDomain = await _regionRepository.DeleteAsync(id);
