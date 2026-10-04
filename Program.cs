@@ -20,6 +20,7 @@ builder.Services.AddDbContext<DevHabitAuthDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AuthConnection")));
 
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+builder.Services.AddScoped<IJwtRepository, JwtRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMaperProfile));
 
@@ -52,6 +53,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     });
+
+
 
 var app = builder.Build();
 app.UseHttpsRedirection();

@@ -1,4 +1,5 @@
 using dev_habit.Models;
+using dev_habit.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace dev_habit.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IJwtRepository _jwtRepository;
 
-        public AuthController(UserManager<IdentityUser> userManager)
+        public AuthController(UserManager<IdentityUser> userManager, IJwtRepository jwtRepository)
         {
             _userManager = userManager;
+            _jwtRepository = jwtRepository;
         }
 
         [HttpPost]
@@ -57,9 +60,22 @@ namespace dev_habit.Controllers
 
                 if (checkPasswordResult)
                 {
-                    // Create Token
+                    // Get Roles for this user
+                    var roles = await _userManager.GetRolesAsync(user);
 
-                    return Ok();
+                    if (roles != null)
+                    {
+                        // Create Token
+
+                        var jwtToken = _jwtRepository.CreateJWTToken(user, roles.ToList());
+
+                        var response = new LoginResponseDTO
+                        {
+                            Token = jwtToken
+                        };
+
+                        return Ok(response);
+                    }
                 }
             }
 
