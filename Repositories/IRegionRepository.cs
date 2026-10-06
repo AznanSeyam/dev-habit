@@ -3,6 +3,7 @@ using dev_habit.Models;
 
 namespace dev_habit.Repositories;
 
+
 public interface IRegionRepository
 {
     Task<List<Region>> GetAllAsync();
