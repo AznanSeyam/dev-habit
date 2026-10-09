@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace dev_habit.Mappings;
 
+
 public class AutoMaperProfile : Profile
 {
     public AutoMaperProfile()
