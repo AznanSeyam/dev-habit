@@ -23,7 +23,6 @@ builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<IJwtRepository, JwtRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMaperProfile));
-
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("dev-habit")
@@ -37,6 +36,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
     options.Password.RequiredLength = 6;
+
     options.Password.RequiredUniqueChars = 1;
 });
 
