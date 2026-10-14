@@ -3429,11 +3429,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/linux/Projects/dev-habit/dev-habit/dev-habit.csproj",
+      "projectUniqueName": "/home/linux/RiderProjects/dev-habit/dev-habit/dev-habit.csproj",
       "projectName": "dev-habit",
-      "projectPath": "/home/linux/Projects/dev-habit/dev-habit/dev-habit.csproj",
+      "projectPath": "/home/linux/RiderProjects/dev-habit/dev-habit/dev-habit.csproj",
       "packagesPath": "/home/linux/.nuget/packages/",
-      "outputPath": "/home/linux/Projects/dev-habit/dev-habit/obj/",
+      "outputPath": "/home/linux/RiderProjects/dev-habit/dev-habit/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/linux/.nuget/NuGet/NuGet.Config"

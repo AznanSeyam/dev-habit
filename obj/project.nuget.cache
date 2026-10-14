@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sfEkzlf1MYk=",
+  "dgSpecHash": "eZzYVEtJ+i0=",
   "success": true,
-  "projectFilePath": "/home/linux/Projects/dev-habit/dev-habit/dev-habit.csproj",
+  "projectFilePath": "/home/linux/RiderProjects/dev-habit/dev-habit/dev-habit.csproj",
   "expectedPackageFiles": [
     "/home/linux/.nuget/packages/automapper/16.2.0/automapper.16.2.0.nupkg.sha512",
     "/home/linux/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/12.0.1/automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
@@ -65,9 +65,9 @@
       "code": "NU1608",
       "level": "Warning",
       "message": "Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 16.2.0 was resolved.",
-      "projectPath": "/home/linux/Projects/dev-habit/dev-habit/dev-habit.csproj",
+      "projectPath": "/home/linux/RiderProjects/dev-habit/dev-habit/dev-habit.csproj",
       "warningLevel": 1,
-      "filePath": "/home/linux/Projects/dev-habit/dev-habit/dev-habit.csproj",
+      "filePath": "/home/linux/RiderProjects/dev-habit/dev-habit/dev-habit.csproj",
       "libraryId": "AutoMapper",
       "targetGraphs": [
         "net10.0"
